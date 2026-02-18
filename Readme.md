@@ -1,78 +1,109 @@
-# Operational Efficiency & Power Generation Performance Analysis of NTPC Stations
+# Performance & Reliability Audit of NTPC Thermal Power Stations
 
-## 1. Project Overview
+## 📌 Project Overview
 **Sector:** Energy & Power Utilities  
-**Analysis Period:** 2017–2026  
-**Dataset Size:** 7,500 Records  
+**Institute:** Newton School of Technology  
+**Faculty Mentor:** Archit  
 
-This project analyzes the power generation efficiency of National Thermal Power Corporation (NTPC) stations. The analysis identifies significant variances in Daily Capacity Factor (DCF) across different power stations, specifically isolating a "Low Capacity" segment that underperforms by approximately 12% compared to high-performing peers. The project aims to provide actionable business intelligence to recover lost revenue opportunities and enhance grid reliability.
+This project conducts a comprehensive operational audit of National Thermal Power Corporation (NTPC) stations using a dataset of **7,500 records** spanning **2017–2026**. The analysis reveals a critical efficiency gap where the fleet operates at an average **Daily Capacity Factor (DCF) of 65.9%**, significantly trailing top performers. 
 
-### Team Details (Section-D/G-17)
-* **Mentor:** Archit (Newton School of Technology)
-* **Team Members:**
-  * Mansi Agarwal
-  * Aditya Samadhiya
-  * Kapish Rohilla
-  * Deepanshu
-  * Prashant Pandey
-  * Harshit Kudhial
+The audit identifies a massive **607,137 MW cumulative outage volume**, translating to a potential revenue loss of over **₹580 Crores**. The project provides a 7-point KPI framework and actionable recommendations to bridge the gap between Monitored and Available Capacity.
+
+### 👥 Team Details (Section-D/G-17)
+* **Mansi Agarwal**
+* **Aditya Samadhiya**
+* **Kapish Rohilla**
+* **Deepanshu**
+* **Prashant Pandey**
+* **Harshit Kudhial**
 
 ---
 
-## 2. Data Dictionary
-The analysis utilizes a cleaned dataset (`DVA Capstone - clean_data.csv`) derived from raw operational logs.
+## 📊 KPI Framework & Scorecard
+The analysis is anchored on **7 Core KPIs** developed to assess fleet health:
 
-| Column Name | Description |
+| Metric | Value | Description |
+| :--- | :--- | :--- |
+| **Total Power Generation** | **49,620.6 MU** | Total energy delivered to the grid. |
+| **Avg Daily Capacity Factor** | **65.9%** | Efficiency score (Actual Generation vs. Potential). |
+| **Total Outage Volume** | **607,137 MW** | Cumulative capacity lost to technical/maintenance issues. |
+| **Monitored Capacity** | **3,033,314 MW** | Theoretical maximum installed capacity. |
+| **Available Capacity** | **2,426,176 MW** | Actual capacity ready for generation. |
+| **High Capacity Share** | **26.97%** | Fleet reliance on top-performing assets. |
+| **Zero Gen Events** | **70** | Critical failure events where units produced 0 MW. |
+
+---
+
+## 📂 Data Dictionary
+**Source:** NDAP - Government of India  
+**Volume:** 7,500 rows, 16 columns  
+
+| Column | Description |
 | :--- | :--- |
-| `Year`, `Month`, `Date` | Temporal attributes of the record. |
-| `State_Clean` | Standardized state name where the power station is located. |
-| `Station_Clean` | Standardized name of the power station unit. |
-| `Monitored` | The monitored capacity of the station (MW). |
-| `Available` | The actual available capacity for generation (MW). |
-| `Power generation... (Dated)` | Scheduled/Programmed power generation for the date. |
-| `Power generation... actual` | Actual power generated on the date. |
-| `Outage` | Capacity under outage (MW). Cleaned to handle missing/zero values. |
-| `Daily_Capacity_Factor` | **Key KPI:** `(Generation / (Monitored * 0.024)) * 100`. |
-| `Zero_Gen_Flag` | Categorical flag (`OK` / `Check`) indicating zero-generation events. |
-| `Capacity_Category` | Segmentation of stations into "High Capacity" or "Low Capacity". |
+| `Station_Clean` | Standardized power station name. |
+| `Monitored Capacity` | Total installed capacity (MW). |
+| `Available Capacity` | Capacity ready for generation (MW). |
+| `Actual Generation` | Energy produced daily (Million Units - MU). |
+| `Outage` | Capacity unavailable due to maintenance/faults (MW). |
+| `Coal Stock` | Days of fuel inventory available. |
+| `Daily_Capacity_Factor` | Calculated KPI: `(Generation / (Monitored * 0.024)) * 100`. |
+| `Zero_Gen_Flag` | Categorical flag detecting complete unit failure. |
 
 ---
 
-## 3. Cleaning Notes
-Raw data was transformed to ensure accuracy and consistency:
-* **Standardization:** Corrected spelling variations in `State` and `Station` names (e.g., standardizing "Uttar Pradesh" and station unit names).
-* **Missing Values:** Imputed missing values in the `Outage` column (assumed zero where not reported).
-* **Feature Engineering:**
-    * Calculated `Daily_Capacity_Factor` to normalize performance comparisons.
-    * Created `Capacity_Category` to segment stations based on performance thresholds.
-    * Derived `Zero_Gen_Check_Count` to quantify frequency of zero-generation events.
+## 🧹 Methodology & Cleaning
+The data pipeline was executed entirely in Google Sheets (`RawDataset` -> `Cleaned`):
+1.  **Imputation:** Missing `Coal Stock` values were imputed with 0 to maintain calculation integrity.
+2.  **Standardization:** Removed underscores from station names and standardized date formats.
+3.  **Feature Engineering:** * Created `Capacity_Category` to segment "High" vs "Low" performers.
+    * Derived `Zero_Gen_Flag` to isolate the 70 critical failure events.
+4.  **Assumptions:** Blank outage values were treated as 0 MW (fully operational).
 
 ---
 
-## 4. Key Insights
-The analysis yielded three critical insights driving operational strategy:
-
-1.  **Performance Gap:** A distinct divide exists between segments. "High Capacity" stations operate at an average DCF of **79.3%**, whereas "Low Capacity" stations average only **67.5%**, representing a ~12% efficiency gap.
-2.  **Outage Impact:** A massive cumulative capacity of **607,138 MW** was reported under outage, translating to an estimated generation loss of ~14,500 Million Units (MU).
-3.  **Regional Disparity:** **Uttar Pradesh** serves as a critical bottleneck, recording the highest total outage capacity (~140k MW cumulative), significantly higher than better-performing states like Odisha.
+## 💡 Key Insights
+1.  **The Efficiency Gap:** There is an **11.8%** performance difference between the "High Capacity" segment and the rest of the fleet.
+2.  **Asset Reliance:** Despite their efficiency, "High Capacity" units contribute only **26.97%** of the total generation share.
+3.  **Regional Bottleneck:** **Uttar Pradesh** is the primary contributor to the outage volume, showing a disproportionately large "Outage" segment in stacked bar analysis.
+4.  **Seasonal Vulnerability:** Generation drops by **~12%** in August, marking the lowest demand/efficiency window.
+5.  **Benchmark:** *Talcher (Old) Unit 2* sets the operational standard with a **99.4% DCF**.
 
 ---
 
-## 5. Dashboard Summaries
-The project dashboard visualizes these metrics to track station health:
+## 📈 Dashboard Summary
+The project includes a dynamic Google Sheets dashboard featuring:
 
-* **Executive Scorecard:** * **Total Outage:** ~607,000 MW (Cumulative)
-    * **Avg Daily Capacity Factor:** 65.90%
-    * **Total Zero Generation Events:** 70
+* **Top Line KPI Strip:** Instant view of the 7 core metrics (Gen, DCF, Outage, etc.).
+* **Trend Analysis:** Line charts tracking generation growth (2017–2026).
+* **Seasonality Analysis:** Bar charts identifying the August dip.
+* **State-wise Performance:** **Stacked Bar Chart** comparing Monitored vs. Available Capacity to highlight state-specific inefficiencies.
+* **Interactive Slicers:** Filter by Year, Month, State, Station, and Capacity Category.
 
-* **Station Performance Summary:** * Detailed ranking of individual units by efficiency.
-    * **Top Performer:** *Talcher (Old) TPS Unit 2* (99.43% DCF).
-    * **High Performers:** *Korba STPS Unit 2* (93.44%) and *Singrauli STPS Unit 4* (93.33%).
-    * Tracks Monitored vs. Available capacity to pinpoint specific unit failures.
+---
 
-* **Capacity Category Analysis:** * Comparative pivot showing the DCF split (79.32% High vs 67.51% Low).
-    * Highlights disproportionate outage volume in the Low Capacity segment (605,988 MW vs 1,148 MW for High Capacity).
+## 🚀 Recommendations & Business Impact
 
-* **State-wise Performance:** * Geographic breakdown highlighting high outage rates in Uttar Pradesh compared to consistent performers in other regions.
+### Proposed Actions
+1.  **Performance Turnaround:** Target the bottom 25% "Low Capacity" units for immediate overhaul.
+2.  **Technical Task Force:** Deploy a specialist team to **Uttar Pradesh** to address the high outage volume.
+3.  **Zero-Gen RCA:** Mandate Root Cause Analysis within 24 hours for any "Zero Generation" event.
+4.  **Strategic Maintenance:** Align all major annual overhauls strictly with the **August** low-demand window.
 
-* **Trend Analysis:** * Time-series views tracking `Daily_Capacity_Factor` (2017–2026) to identify seasonal dips and long-term degradation patterns.
+### Estimated Impact
+By reducing cumulative outages (607,137 MW) by just **10%**, NTPC can recover **~1,457 Million Units (MU)** of energy. At a rate of ₹40 Lakhs/MU, this translates to:
+
+### **₹582.8 Crores** *Potential Revenue Recovery*
+
+---
+
+## 🔮 Future Scope
+* **Predictive ML:** Integration of vibration/sensor data to predict boiler failures before they occur.
+* **Logistics Integration:** Incorporating railway supply chain data to model coal stock volatility.
+
+---
+
+## 📜 Repository Structure
+* `Power_Generation_Analysis_Report.docx` - Full project report.
+* `DVA Capstone - Dashboard.csv` - Dashboard data source.
+* `DVA Capstone - clean_data.csv` - The processed dataset used for analysis.
+* `DVA Capstone - Calculated_Pivots.csv` - Aggregated data for charts.
